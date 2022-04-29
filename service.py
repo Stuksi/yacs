@@ -1,5 +1,5 @@
 from genericpath import exists
-from os import getenv, remove, path, open
+from os import getenv, remove, path
 from dotenv import load_dotenv
 from re import findall
 
@@ -47,7 +47,7 @@ def search_frames_for_codes_and_activate(frames):
   for i in reversed(range(len(frames))):
     frame = crop_frame(frames[i], VIDEO_CROP_OPTIONS)
     text  = image_to_string(frame).strip()
-    print(text)
+
     try:
       code = findall(AMAZON_CODE_REGEX, text)[0]
       activate_code_for_current_user(code)
@@ -60,7 +60,7 @@ from googleapiclient.discovery import build
 
 YOUTUBE_API_KEY = getenv('YOUTUBE_API_KEY')
 YOUTUBE_HOST = 'https://www.youtube.com/'
-YOUTUBE_CACHE_FILE = '.cache'
+YOUTUBE_CACHE_FILE = '.youtube-cache'
 
 Youtube_API = build('youtube', 'v3', developerKey = YOUTUBE_API_KEY)
 
@@ -184,11 +184,11 @@ if not cached_upload_id:
   cache_upload_id(latest_channel_upload_id)
   cached_upload_id = latest_channel_upload_id
 
-upload_id = has_channel_uploaded(channel_uploads_playlist_id, cached_upload_id)
+new_upload_id = has_channel_uploaded(channel_uploads_playlist_id, cached_upload_id)
 
-if upload_id:
-  cache_upload_id(upload_id)
-  upload_url = get_youtube_video_url(upload_id)
+if new_upload_id:
+  cache_upload_id(new_upload_id)
+  upload_url = get_youtube_video_url(new_upload_id)
   download_youtube_video(upload_url)
   frames = get_video_frames_from_downloaded_video()
   search_frames_for_codes_and_activate(frames)
