@@ -173,7 +173,7 @@ def activate_code_for_current_user(code):
 
 from pytesseract import image_to_string
 
-YOUTUBE_CHANNEL_ID = 'UCGmnsW623G1r-Chmo5RB4Yw'
+YOUTUBE_CHANNEL_ID = 'UCGmnsW623G1r-Chmo5RB4Yw' # Hard-coded JJ Olatunji channel ID
 
 channel_uploads_playlist_id = get_channel_uploads_playlist_id(YOUTUBE_CHANNEL_ID)
 
